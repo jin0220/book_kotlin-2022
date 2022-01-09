@@ -1,4 +1,4 @@
-package com.example.bookreport.ui
+package com.example.bookreport.ui.home
 
 import java.util.*
 

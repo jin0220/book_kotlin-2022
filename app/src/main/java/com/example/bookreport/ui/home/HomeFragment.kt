@@ -1,11 +1,10 @@
-package com.example.bookreport.ui
+package com.example.bookreport.ui.home
 
-import android.R
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookreport.databinding.FragmentHomeBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,12 +13,9 @@ import java.util.*
 class HomeFragment : Fragment() {
 
     private var mBinding: FragmentHomeBinding? = null
-    private var calendar = Calendar.getInstance()
 
     lateinit var scheduleRecyclerViewAdapter: CalendarAdapter
-
-    lateinit var year: String
-    lateinit var month: String
+    lateinit var itemListAdapter: ItemListAdapter
 
     private val SWIPE_DISTANCE_THRESHOLD = 100
     private val SWIPE_VELOCITY_THRESHOLD = 100
@@ -58,6 +54,7 @@ class HomeFragment : Fragment() {
     }
 
     fun initView() {
+        // 달력
         scheduleRecyclerViewAdapter = CalendarAdapter(this)
 
         mBinding?.rvSchedule?.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
@@ -70,6 +67,18 @@ class HomeFragment : Fragment() {
         mBinding?.tvNextMonth?.setOnClickListener {
             scheduleRecyclerViewAdapter.changeToNextMonth()
         }
+
+        // 아이템 리스트
+        itemListAdapter = ItemListAdapter()
+        mBinding?.itemList?.layoutManager = object : LinearLayoutManager(context){
+            // 리사이클러뷰 스크롤 막기
+            override fun canScrollHorizontally(): Boolean = false
+            override fun canScrollVertically(): Boolean = false
+        }
+        mBinding?.itemList?.adapter = itemListAdapter
+
+        itemListAdapter.addItem(mutableListOf("1","2"))
+
     }
 
     fun refreshCurrentMonth(calendar: Calendar) {

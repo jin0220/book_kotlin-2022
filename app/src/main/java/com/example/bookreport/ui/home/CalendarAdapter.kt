@@ -1,9 +1,8 @@
-package com.example.bookreport.ui
+package com.example.bookreport.ui.home
 
 import android.graphics.*
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,8 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     val baseCalendar = BaseCalendar()
     var year: String = ""
     var month: String = ""
+
+    var oldClick = -1
 
     init {
         baseCalendar.initBaseCalendar {
@@ -41,30 +42,35 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
         return holder.bind(position)
     }
 
-    var oldClick = 0
-
     inner class ViewHolder(val binding: ItemScheduleBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int){
 //            if (position % BaseCalendar.DAYS_OF_WEEK == 0) binding.tvDate.setTextColor(Color.parseColor("#ff1200"))
 //            else binding.tvDate.setTextColor(Color.parseColor("#676d6e"))
+            with(binding) {
+                if (position < baseCalendar.prevMonthTailOffset || position >= baseCalendar.prevMonthTailOffset + baseCalendar.currentMonthMaxDate) {
+                    tvDate.alpha = 0.0f
+                } else {
+                    tvDate.alpha = 1f
+                }
 
-            if (position < baseCalendar.prevMonthTailOffset || position >= baseCalendar.prevMonthTailOffset + baseCalendar.currentMonthMaxDate) {
-                binding.tvDate.alpha = 0.0f
-            } else {
-                binding.tvDate.alpha = 1f
-            }
-            binding.tvDate.text = baseCalendar.data[position].toString()
-            binding.tvDate.setOnClickListener {
-                notifyItemChanged(oldClick)
-                Toast.makeText(binding.dateBox.context,"$year $month ${baseCalendar.data[position]}",Toast.LENGTH_SHORT).show()
-//                clickDate(binding)
-                binding.clickDate.visibility = View.VISIBLE
-                oldClick = position
-            }
+                tvDate.text = baseCalendar.data[position].toString()
+                clickDate.setColorFilter(Color.parseColor("#ffffff"))
+                tvDate.setTextColor(Color.BLACK)
+
+                tvDate.setOnClickListener {
+                    Toast.makeText(dateBox.context, "$year $month ${baseCalendar.data[position]}", Toast.LENGTH_SHORT).show()
+                    clickDate.setColorFilter(Color.parseColor("#6667AB"))
+                    tvDate.setTextColor(Color.WHITE)
+
+                    if (oldClick != -1) notifyItemChanged(oldClick) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
+                    oldClick = position
+                }
 
 //            binding.dot.addView(PointView(binding.dot.context))
-            if(year == "2022" && month == "January" && baseCalendar.data[position] == 7) {
-                dot(binding)
+                if (year == "2022" && month == "January" && baseCalendar.data[position] == 7) {
+                    dot(binding) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
+                    Log.d("확인","$position")
+                }
             }
         }
     }
@@ -96,7 +102,7 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     fun dot(binding: ItemScheduleBinding){
         val bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.WHITE)
+        canvas.drawColor(Color.TRANSPARENT)
         binding.dot.setImageBitmap(bitmap)
 
         val paint = Paint()
@@ -109,24 +115,5 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
 
         // 원 그리기
         canvas.drawArc(rect, 0f, 360f, true, paint)
-    }
-
-    fun clickDate(binding: ItemScheduleBinding){
-        val bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.WHITE)
-        binding.clickDate.setImageBitmap(bitmap)
-
-        val paint = Paint()
-        paint.setColor(Color.parseColor("#6667AB"))
-//        paint.setStrokeWidth(100f)
-
-        // 도화지에 좌표로 표시하기
-        val rect = RectF()
-        rect.set(100f,0f,400f,500f)
-
-        // 원 그리기
-        canvas.drawArc(rect, 0f, 360f, true, paint)
-//        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
     }
 }
