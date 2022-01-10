@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         // 네비게이션을 담을 호스트
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.my_nav_host) as NavHostFragment
 

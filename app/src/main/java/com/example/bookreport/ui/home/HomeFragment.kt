@@ -1,5 +1,6 @@
 package com.example.bookreport.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -87,6 +88,11 @@ class HomeFragment : Fragment() {
 
         mBinding?.tvCurrentYear?.text = sdf1.format(calendar.time)
         mBinding?.tvCurrentMonth?.text = sdf2.format(calendar.time)
+    }
+
+    fun addClick(view:View){
+        val intent = Intent(context, WriteActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

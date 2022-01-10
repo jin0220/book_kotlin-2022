@@ -163,30 +163,43 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:paddingHorizontal="10dp"
-            android:orientation="vertical">
+            android:paddingHorizontal="10dp">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
                 android:text="기록"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"/>
+            <!--수정하기-->
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="add"
+                android:textColor="@color/black"
+                android:layout_gravity="end"
+                android:layout_below="@+id/title"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:onClick="addClick"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/item_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"
-                tools:listitem="@layout/item_list" />
+                tools:listitem="@layout/item_list"
+                android:layout_below="@id/add"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
