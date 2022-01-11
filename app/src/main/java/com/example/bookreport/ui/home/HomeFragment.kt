@@ -6,12 +6,13 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookreport.R
 import com.example.bookreport.databinding.FragmentHomeBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(){
 
     private var mBinding: FragmentHomeBinding? = null
 
@@ -49,6 +50,11 @@ class HomeFragment : Fragment() {
 
         mBinding?.rvSchedule?.setOnTouchListener { view, motionEvent ->
             detector.onTouchEvent(motionEvent)
+        }
+
+        mBinding?.write?.setOnClickListener {
+            val intent = Intent(context, WriteActivity::class.java)
+            startActivity(intent)
         }
 
         return mBinding?.root
@@ -90,13 +96,9 @@ class HomeFragment : Fragment() {
         mBinding?.tvCurrentMonth?.text = sdf2.format(calendar.time)
     }
 
-    fun addClick(view:View){
-        val intent = Intent(context, WriteActivity::class.java)
-        startActivity(intent)
-    }
-
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
     }
+
 }

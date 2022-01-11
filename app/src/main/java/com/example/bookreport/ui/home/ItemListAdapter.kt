@@ -1,7 +1,9 @@
 package com.example.bookreport.ui.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookreport.databinding.ItemListBinding
 
@@ -21,7 +23,12 @@ class ItemListAdapter: RecyclerView.Adapter<ItemListAdapter.ViewHolder>(){
 
     inner class ViewHolder(val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
-
+            with(binding) {
+                itemBox.setOnClickListener {
+                    val intent = Intent(itemBox.context, ReadActivity::class.java)
+                    ContextCompat.startActivity(itemBox.context, intent, null)
+                }
+            }
         }
     }
 
