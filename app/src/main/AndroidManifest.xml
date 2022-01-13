@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookReport">
-        <activity android:name=".ui.home.ReadActivity"></activity>
-        <activity android:name=".ui.home.WriteActivity" />
+        <activity android:name=".ui.home.ReadActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".ui.home.WriteActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
