@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".ui.home.WriteActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/tool_bar">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white">
+    </androidx.appcompat.widget.Toolbar>
 
-        </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,10 +27,97 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <EditText
-                android:id="@+id/editText"
+            <LinearLayout
+                android:id="@+id/item_box"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="75dp"
+                    android:background="#ddd"
+                    android:layout_margin="5dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제목"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"/>
+
+                    <com.google.android.flexbox.FlexboxLayout
+                        android:id="@+id/flex_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:alignContent="stretch"
+                        app:alignItems="stretch"
+                        app:flexWrap="wrap">
+
+                        <TextView
+                            android:id="@+id/author"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="J.D. 샐린저 저/ 이덕형 역" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="8dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:background="#aaa" />
+
+                        <TextView
+                            android:id="@+id/publisher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="문예출판사" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="8dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:background="#aaa" />
+
+                        <TextView
+                            android:id="@+id/genre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="소설" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="8dp"
+                            android:layout_marginHorizontal="5dp"
+                            android:background="#aaa" />
+
+                        <TextView
+                            android:id="@+id/page"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="302쪽" />
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="책 찾아보기"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:layout_marginTop="10dp"
+                android:onClick="search"/>
 
             <TextView
                 android:id="@+id/textView"
@@ -90,6 +178,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>
+
