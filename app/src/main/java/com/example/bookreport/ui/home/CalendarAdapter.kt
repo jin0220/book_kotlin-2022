@@ -69,7 +69,6 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
 //            binding.dot.addView(PointView(binding.dot.context))
                 if (oldClick == -1 && year == "2022" && month == "January" && baseCalendar.data[position] == 7) {
                     dot(binding) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
-                    Log.d("확인","$position")
                 }
             }
         }
