@@ -1,11 +1,14 @@
-package com.example.bookreport.ui.home
+package com.example.bookreport.ui.home.search
 
-import android.util.Log
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookreport.data.model.Book
 import com.example.bookreport.databinding.ItemSearchBinding
+import com.example.bookreport.ui.home.WriteActivity
 import com.squareup.picasso.Picasso
 
 class SearchAdapter: RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
@@ -29,6 +32,17 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
                 title.text = book.title
                 author.text = book.author
                 publisher.text = book.publisher
+
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context, WriteActivity::class.java)
+                    intent.putExtra("title", book.title)
+                    intent.putExtra("author", book.author)
+                    intent.putExtra("publisher", book.publisher)
+                    intent.putExtra("image", book.image)
+                    val activity = itemView.context as SearchActivity
+                    activity.setResult(Activity.RESULT_OK, intent)
+                    activity.finish()
+                }
             }
         }
     }

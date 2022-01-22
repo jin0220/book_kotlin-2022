@@ -6,7 +6,7 @@ import com.example.bookreport.data.model.Book
 import retrofit2.Response
 
 class BookRepository{
-    suspend fun getSearchBook() : Response<Book> {
-        return RetrofitClient.getApiService().getSearchBook("book.json","달러구트 꿈 백화점")
+    suspend fun getSearchBook(string: String) : Response<Book> {
+        return RetrofitClient.getApiService().getSearchBook("book.json", string)
     }
 }

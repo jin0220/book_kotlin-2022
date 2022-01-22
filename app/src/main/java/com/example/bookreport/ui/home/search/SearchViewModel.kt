@@ -1,4 +1,4 @@
-package com.example.bookreport.ui.home
+package com.example.bookreport.ui.home.search
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -14,9 +14,9 @@ class SearchViewModel: ViewModel() {
 
     val myResponse : MutableLiveData<Response<Book>> = MutableLiveData()
 
-    fun getSearchBook() {
+    fun getSearchBook(string: String) {
         viewModelScope.launch {
-            myResponse.value = repository.getSearchBook()
+            myResponse.value = repository.getSearchBook(string)
         }
     }
 }

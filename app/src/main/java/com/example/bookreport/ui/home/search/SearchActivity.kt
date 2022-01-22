@@ -1,4 +1,4 @@
-package com.example.bookreport.ui.home
+package com.example.bookreport.ui.home.search
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -39,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
 
         binding.searchBtn.setOnClickListener {
             if(binding.editText.text.isNotEmpty()){
-                searchViewModel.getSearchBook()
+                searchViewModel.getSearchBook(binding.editText.text.toString())
             }
         }
 
