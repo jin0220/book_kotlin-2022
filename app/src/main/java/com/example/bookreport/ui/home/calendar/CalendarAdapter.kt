@@ -1,12 +1,12 @@
-package com.example.bookreport.ui.home
+package com.example.bookreport.ui.home.calendar
 
 import android.graphics.*
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookreport.databinding.ItemScheduleBinding
+import com.example.bookreport.ui.home.HomeFragment
 import java.text.SimpleDateFormat
 import java.util.*
 

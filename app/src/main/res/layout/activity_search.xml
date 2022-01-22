@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.SearchActivity">
+    tools:context=".ui.home.search.SearchActivity">
 
     <EditText
         android:id="@+id/editText"
@@ -25,6 +25,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/ic_search"
         app:layout_constraintBottom_toBottomOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="@+id/editText"
         app:layout_constraintTop_toTopOf="@+id/editText" />
