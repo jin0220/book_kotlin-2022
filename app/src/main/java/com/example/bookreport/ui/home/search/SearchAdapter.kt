@@ -28,16 +28,28 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(book: Book.Items){
             with(binding) {
+                var t = book.title
+                var a = book.author
+                var p = book.publisher
+
+                // 태그 제거
+                t = t.replace("<b>","")
+                t = t.replace("</b>","")
+                a = a.replace("<b>","")
+                a = a.replace("</b>","")
+                p = p.replace("<b>","")
+                p = p.replace("</b>","")
+
                 Picasso.get().load(book.image).into(image)
-                title.text = book.title
-                author.text = book.author
-                publisher.text = book.publisher
+                title.text = t
+                author.text = a
+                publisher.text = p
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, WriteActivity::class.java)
-                    intent.putExtra("title", book.title)
-                    intent.putExtra("author", book.author)
-                    intent.putExtra("publisher", book.publisher)
+                    intent.putExtra("title", t)
+                    intent.putExtra("author", a)
+                    intent.putExtra("publisher", p)
                     intent.putExtra("image", book.image)
                     val activity = itemView.context as SearchActivity
                     activity.setResult(Activity.RESULT_OK, intent)

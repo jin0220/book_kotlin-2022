@@ -40,6 +40,8 @@ class WriteActivity : AppCompatActivity() {
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode == Activity.RESULT_OK){
+                binding.itemBox.visibility = View.VISIBLE
+
                 binding.title.text = it.data?.getStringExtra("title")
                 binding.author.text = it.data?.getStringExtra("author")
                 binding.publisher.text = it.data?.getStringExtra("publisher")
