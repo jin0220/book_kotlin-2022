@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BookReport">
+        android:theme="@style/Theme.BookReport"
+        android:usesCleartextTraffic="true">
         <activity android:name=".ui.home.search.SearchActivity"></activity>
         <activity
             android:name=".ui.home.ReadActivity"

@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object DBRetrofitClient {
-    private val BASE_URL = "https://dbtest.dothome.co.kr/Android/"
+    private val BASE_URL = "http://dbtest.dothome.co.kr/Android/"
 
     // 레트로핏 클라이언트 객체 반환
     fun getInstance(): Retrofit {

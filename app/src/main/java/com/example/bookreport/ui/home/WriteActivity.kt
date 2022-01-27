@@ -58,7 +58,6 @@ class WriteActivity : AppCompatActivity() {
 
         resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode == Activity.RESULT_OK){
-                Log.d("확인", "${it.data?.getStringExtra("image")}")
                 imagePhoto = it.data?.getStringExtra("image")!!
                 binding.itemBox.visibility = View.VISIBLE
 
@@ -69,17 +68,17 @@ class WriteActivity : AppCompatActivity() {
             }
         }
 
-        writeViewModel.recordResponse.observe(this,{
-            it.enqueue(object : retrofit2.Callback<Record> {
-                override fun onResponse(call: Call<Record>, response: Response<Record>) {
-                    Log.d("확인", "$response")
-                }
-
-                override fun onFailure(call: Call<Record>, t: Throwable) {
-                    Log.d("확인", "fail")
-                }
-            })
-        })
+//        writeViewModel.recordResponse.observe(this,{
+//            it.enqueue(object : retrofit2.Callback<Record> {
+//                override fun onResponse(call: Call<Record>, response: Response<Record>) {
+//                    Log.d("확인", "$response")
+//                }
+//
+//                override fun onFailure(call: Call<Record>, t: Throwable) {
+//                    Log.d("확인", "fail $call")
+//                }
+//            })
+//        })
     }
 
 
@@ -106,17 +105,16 @@ class WriteActivity : AppCompatActivity() {
         with(binding) {
             // 데이터 받아오기
             val id = "test"
-            val title = title.text
-            val author = author.text
-            val publisher = publisher.text
-            val rating = rating.rating
-            val memo = memo.text
+            val title = title.text.toString()
+            val author = author.text.toString()
+            val publisher = publisher.text.toString()
+            val rating = rating.rating.toDouble()
+            val memo = memo.text.toString()
 
-//            Log.d("확인", "$id $title $imagePhoto $author $publisher $rating $memo")
-            val post = Record(id, title as String, imagePhoto as String, author as String,
-                    publisher as String, rating as Double, memo as String)
+            writeViewModel.recordInsert(id, title, imagePhoto, author,
+                    publisher, rating, memo)
 
-            writeViewModel.recordInsert(post)
+            finish()
         }
     }
 }
