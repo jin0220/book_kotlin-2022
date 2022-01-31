@@ -10,5 +10,5 @@ data class Record (
     @SerializedName("publisher") val publisher: String,
     @SerializedName("rating") val rating: Double,
     @SerializedName("memo") val memo: String,
-//        @SerializedName("date") val date: String
+    @SerializedName("date") val date: String
 )

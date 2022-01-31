@@ -2,8 +2,10 @@ package com.example.bookreport.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookreport.databinding.FragmentHomeBinding
@@ -13,12 +15,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment(), HomeUpdate{
 
     private var mBinding: FragmentHomeBinding? = null
 
     lateinit var scheduleRecyclerViewAdapter: CalendarAdapter
     lateinit var itemListAdapter: ItemListAdapter
+    lateinit var viewModel: HomeViewModel
 
     private val SWIPE_DISTANCE_THRESHOLD = 100
     private val SWIPE_VELOCITY_THRESHOLD = 100
@@ -48,7 +51,6 @@ class HomeFragment : Fragment(){
             }
         })
 
-
         mBinding?.rvSchedule?.setOnTouchListener { view, motionEvent ->
             detector.onTouchEvent(motionEvent)
         }
@@ -64,6 +66,8 @@ class HomeFragment : Fragment(){
     fun initView() {
         // 달력
         scheduleRecyclerViewAdapter = CalendarAdapter(this)
+
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         mBinding?.rvSchedule?.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
         mBinding?.rvSchedule?.adapter = scheduleRecyclerViewAdapter
@@ -85,7 +89,8 @@ class HomeFragment : Fragment(){
         }
         mBinding?.itemList?.adapter = itemListAdapter
 
-        itemListAdapter.addItem(mutableListOf("1","2"))
+//        itemListAdapter.addItem(mutableListOf("1","2"))
+//        itemListAdapter.dataList
 
     }
 
@@ -100,6 +105,14 @@ class HomeFragment : Fragment(){
     override fun onDestroyView() {
         mBinding = null
         super.onDestroyView()
+    }
+
+    // interface 구현
+    override fun itemListUpdate(date: String) {
+        viewModel.recordSelect("test", date)
+        Log.d("확인", "$date")
+        itemListAdapter.dataList = viewModel.response
+        Log.d("확인", "${viewModel.response}")
     }
 
 }

@@ -16,6 +16,8 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     val baseCalendar = BaseCalendar()
     var year: String = ""
     var month: String = ""
+    var num_month: String = ""
+    var day: Int = 0
 
     var oldClick = -1
 
@@ -62,8 +64,12 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
                     clickDate.setColorFilter(Color.parseColor("#6667AB"))
                     tvDate.setTextColor(Color.WHITE)
 
+                    day = baseCalendar.data[position]
+
                     if (oldClick != -1) notifyItemChanged(oldClick) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
                     oldClick = position
+
+                    fragment.itemListUpdate("$year-$num_month-$day") // 선택된 날짜 프래그먼트에 전달
                 }
 
 //            binding.dot.addView(PointView(binding.dot.context))
@@ -93,9 +99,11 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
 
         val sdf1 = SimpleDateFormat("yyyy", Locale.KOREAN)
         val sdf2 = SimpleDateFormat("MMMM", Locale.US)
+        val sdf3 = SimpleDateFormat("MM", Locale.KOREAN)
 
         year = sdf1.format(calendar.time)
         month = sdf2.format(calendar.time)
+        num_month = sdf3.format(calendar.time)
     }
 
     fun dot(binding: ItemScheduleBinding){

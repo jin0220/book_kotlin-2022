@@ -19,7 +19,5 @@ object DBRetrofitClient {
                 .build()
     }
 
-    fun recordInsert(): DBService{
-        return getInstance().create(DBService::class.java)
-    }
+    val api: DBService = getInstance().create(DBService::class.java)
 }
