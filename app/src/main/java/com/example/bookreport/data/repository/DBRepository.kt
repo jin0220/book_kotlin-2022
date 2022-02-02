@@ -19,7 +19,7 @@ class DBRepository {
             override fun onResponse(call: Call<Record>, response: Response<Record>) {
                 if(response.isSuccessful){
                     // 정상적인 통신
-                    Log.d("확인", "${response.body()}")
+                    Log.d("확인", "응답 성공 -> ${response.body()}")
                 }
                 else{
                     // 통신 실패 (응답코드 3xx, 4xx 등)
@@ -34,15 +34,15 @@ class DBRepository {
         })
     }
 
-    var dataList: MutableList<Record> = mutableListOf()
+    var dataList: MutableLiveData<MutableList<Record>> = MutableLiveData()
     fun recordSelect(id: String, date: String){
         val call = DBRetrofitClient.api.recordSelect(id, date)
 
         call.enqueue(object : Callback<MutableList<Record>>{
             override fun onResponse(call: Call<MutableList<Record>>, response: Response<MutableList<Record>>) {
                 if (response.isSuccessful){
-                    Log.d("확인", "${response.body()}")
-                    dataList = response.body()!!
+                    Log.d("확인", "응답 성공 -> ${response.body()}")
+                    dataList.value = response.body()!!
                 }
                 else{
                     Log.d("확인", "응답 실패")

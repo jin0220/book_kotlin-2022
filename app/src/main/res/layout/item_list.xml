@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:layout_margin="10dp"
+    android:padding="10dp"
     android:background="@drawable/item_list_background">
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="60dp"
         android:layout_height="75dp"
-        android:background="#ddd"
         android:layout_margin="5dp"/>
 
     <LinearLayout

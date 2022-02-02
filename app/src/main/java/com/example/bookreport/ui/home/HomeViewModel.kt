@@ -11,13 +11,12 @@ import kotlinx.coroutines.launch
 class HomeViewModel: ViewModel() {
     private val repository = DBRepository()
 
-    var response: MutableList<Record> = mutableListOf()
+    var response: MutableLiveData<MutableList<Record>> = MutableLiveData()
 
     fun recordSelect(id: String, date: String) {
         viewModelScope.launch {
             repository.recordSelect(id, date)
             response = repository.dataList
-            Log.d("확인", "repository ${response}")
         }
     }
 }

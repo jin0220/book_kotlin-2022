@@ -27,22 +27,22 @@ class ItemListAdapter: RecyclerView.Adapter<ItemListAdapter.ViewHolder>(){
     inner class ViewHolder(val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: Record){
             with(binding) {
-                Log.d("확인", "${item.title}")
                 title.text = item.title
                 Picasso.get().load(item.image).into(image)
 
                 itemBox.setOnClickListener {
                     val intent = Intent(itemBox.context, ReadActivity::class.java)
+                    intent.putExtra("title", item.title)
+                    intent.putExtra("image", item.image)
+                    intent.putExtra("author", item.author)
+                    intent.putExtra("publisher", item.publisher)
+                    intent.putExtra("rating", item.rating)
+                    intent.putExtra("memo", item.memo)
+                    intent.putExtra("date", item.date)
                     ContextCompat.startActivity(itemBox.context, intent, null)
                 }
             }
         }
-    }
-
-    fun addItem(list: MutableList<Record>){
-        this.dataList = list
-        Log.d("확인", "${dataList[0]}")
-        notifyDataSetChanged()
     }
 
 }

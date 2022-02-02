@@ -89,9 +89,6 @@ class HomeFragment : Fragment(), HomeUpdate{
         }
         mBinding?.itemList?.adapter = itemListAdapter
 
-//        itemListAdapter.addItem(mutableListOf("1","2"))
-//        itemListAdapter.dataList
-
     }
 
     fun refreshCurrentMonth(calendar: Calendar) {
@@ -110,9 +107,12 @@ class HomeFragment : Fragment(), HomeUpdate{
     // interface 구현
     override fun itemListUpdate(date: String) {
         viewModel.recordSelect("test", date)
-        Log.d("확인", "$date")
-        itemListAdapter.dataList = viewModel.response
-        Log.d("확인", "${viewModel.response}")
+
+        viewModel.response.observe(this,{
+            itemListAdapter.dataList = it
+            itemListAdapter.notifyDataSetChanged()
+        })
+
     }
 
 }

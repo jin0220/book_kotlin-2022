@@ -8,7 +8,7 @@ data class Record (
     @SerializedName("image") val image: String,
     @SerializedName("author") val author: String,
     @SerializedName("publisher") val publisher: String,
-    @SerializedName("rating") val rating: Double,
+    @SerializedName("rating") val rating: Float,
     @SerializedName("memo") val memo: String,
     @SerializedName("date") val date: String
 )
