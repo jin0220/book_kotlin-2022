@@ -1,6 +1,7 @@
 package com.example.bookreport.ui.home.calendar
 
 import android.graphics.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -20,6 +21,8 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     var day: Int = 0
 
     var oldClick = -1
+
+    var decorate: MutableList<Boolean> = mutableListOf()
 
     init {
         baseCalendar.initBaseCalendar {
@@ -73,7 +76,8 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
                 }
 
 //            binding.dot.addView(PointView(binding.dot.context))
-                if (oldClick == -1 && year == "2022" && month == "January" && baseCalendar.data[position] == 7) {
+                if (position >= baseCalendar.prevMonthTailOffset && position < baseCalendar.prevMonthTailOffset + baseCalendar.currentMonthMaxDate
+                    && oldClick == -1 && decorate.isNotEmpty() && decorate[baseCalendar.data[position]]){
                     dot(binding) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
                 }
             }
@@ -104,6 +108,13 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
         year = sdf1.format(calendar.time)
         month = sdf2.format(calendar.time)
         num_month = sdf3.format(calendar.time)
+
+        // 달력 월이 바뀔때 해당 월의 데이터 리스트 호출
+        fragment.viewModel.calendarSelect("test", "$year-$num_month")
+
+        // 달력의 월이 바뀔 때 목록 리스트 초기화
+        fragment.itemListAdapter.dataList = mutableListOf()
+        fragment.itemListAdapter.notifyDataSetChanged()
     }
 
     fun dot(binding: ItemScheduleBinding){

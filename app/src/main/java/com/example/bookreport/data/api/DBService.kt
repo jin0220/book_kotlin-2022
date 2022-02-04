@@ -1,6 +1,7 @@
 package com.example.bookreport.data.api
 
 import androidx.lifecycle.MutableLiveData
+import com.example.bookreport.data.model.Calendar
 import com.example.bookreport.data.model.Record
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
@@ -27,4 +28,11 @@ interface DBService {
         @Field("id") id: String,
         @Field("date") date: String
     ): Call<MutableList<Record>>
+
+    @FormUrlEncoded
+    @POST("calendarList.php")
+    fun calendarSelect(
+        @Field("id") id: String,
+        @Field("date") date: String,
+    ): Call<MutableList<Calendar>>
 }

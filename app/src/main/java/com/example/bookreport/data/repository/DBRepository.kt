@@ -3,6 +3,7 @@ package com.example.bookreport.data.repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.bookreport.data.api.DBRetrofitClient
+import com.example.bookreport.data.model.Calendar
 import com.example.bookreport.data.model.PostModel
 import com.example.bookreport.data.model.Record
 import retrofit2.Call
@@ -50,6 +51,29 @@ class DBRepository {
             }
 
             override fun onFailure(call: Call<MutableList<Record>>, t: Throwable) {
+                t.printStackTrace()
+                Log.d("확인", "통신 실패")
+            }
+
+        })
+    }
+
+    var calendarList: MutableLiveData<MutableList<Calendar>> = MutableLiveData()
+    fun calendarSelect(id: String, date: String){
+        val call = DBRetrofitClient.api.calendarSelect(id, date)
+
+        call.enqueue(object : Callback<MutableList<Calendar>>{
+            override fun onResponse(call: Call<MutableList<Calendar>>, response: Response<MutableList<Calendar>>) {
+                if (response.isSuccessful){
+                    Log.d("확인", "응답 성공 -> ${response.body()}")
+                    calendarList.value = response.body()!!
+                }
+                else{
+                    Log.d("확인", "응답 실패")
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<Calendar>>, t: Throwable) {
                 t.printStackTrace()
                 Log.d("확인", "통신 실패")
             }

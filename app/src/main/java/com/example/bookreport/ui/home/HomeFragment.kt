@@ -64,10 +64,19 @@ class HomeFragment : Fragment(), HomeUpdate{
     }
 
     fun initView() {
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        // 아이템 리스트
+        itemListAdapter = ItemListAdapter()
+        mBinding?.itemList?.layoutManager = object : LinearLayoutManager(context){
+            // 리사이클러뷰 스크롤 막기
+            override fun canScrollHorizontally(): Boolean = false
+            override fun canScrollVertically(): Boolean = false
+        }
+        mBinding?.itemList?.adapter = itemListAdapter
+
         // 달력
         scheduleRecyclerViewAdapter = CalendarAdapter(this)
-
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         mBinding?.rvSchedule?.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
         mBinding?.rvSchedule?.adapter = scheduleRecyclerViewAdapter
@@ -80,14 +89,20 @@ class HomeFragment : Fragment(), HomeUpdate{
             scheduleRecyclerViewAdapter.changeToNextMonth()
         }
 
-        // 아이템 리스트
-        itemListAdapter = ItemListAdapter()
-        mBinding?.itemList?.layoutManager = object : LinearLayoutManager(context){
-            // 리사이클러뷰 스크롤 막기
-            override fun canScrollHorizontally(): Boolean = false
-            override fun canScrollVertically(): Boolean = false
-        }
-        mBinding?.itemList?.adapter = itemListAdapter
+
+        // 달력에 표시하기 위해 db에 저장된 날짜 정보를 처리
+        viewModel.calendarResponse.observe(viewLifecycleOwner, {
+            var check = MutableList(32) { index -> false }
+
+            if(it.isNotEmpty()) {
+                for (i in it.indices) {
+                    check[it[i].date.split("-")[2].toInt()] = true
+                }
+            }
+
+            scheduleRecyclerViewAdapter.decorate = check
+            scheduleRecyclerViewAdapter.notifyDataSetChanged()
+        })
 
     }
 
@@ -104,7 +119,7 @@ class HomeFragment : Fragment(), HomeUpdate{
         super.onDestroyView()
     }
 
-    // interface 구현
+    // interface 구현, 날짜 클릭 시 해당 날짜에 저장된 데이터 가져옴
     override fun itemListUpdate(date: String) {
         viewModel.recordSelect("test", date)
 
