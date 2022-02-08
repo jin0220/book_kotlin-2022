@@ -1,11 +1,13 @@
 package com.example.bookreport.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
+import com.example.bookreport.R
 import com.example.bookreport.databinding.ActivityReadBinding
 import com.squareup.picasso.Picasso
 
@@ -35,9 +37,27 @@ class ReadActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.read_menu, menu)
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.update -> {
+                return true
+            }
+            R.id.delect -> {
+                readViewModel.recordDelete(intent.getIntExtra("num", -1))
+                val resultIntent = Intent(this, HomeFragment::class.java)
+                resultIntent.putExtra("position",  intent.getIntExtra("position", -1))
+                setResult(RESULT_OK, resultIntent)
                 finish()
                 return true
             }

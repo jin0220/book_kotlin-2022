@@ -1,16 +1,22 @@
 package com.example.bookreport.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bookreport.data.model.Record
 import com.example.bookreport.databinding.FragmentHomeBinding
 import com.example.bookreport.ui.home.calendar.BaseCalendar
 import com.example.bookreport.ui.home.calendar.CalendarAdapter
+import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,6 +31,8 @@ class HomeFragment : Fragment(), HomeUpdate{
 
     private val SWIPE_DISTANCE_THRESHOLD = 100
     private val SWIPE_VELOCITY_THRESHOLD = 100
+
+    lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +66,30 @@ class HomeFragment : Fragment(), HomeUpdate{
         mBinding?.write?.setOnClickListener {
             val intent = Intent(context, WriteActivity::class.java)
             startActivity(intent)
+            // 추가된 데이터 업데이트 처리하기
+        }
+
+        itemListAdapter.setOnItemClickListener(object : ItemListAdapter.OnItemClickListener{
+            override fun onItemClick(v: View?, position: Int, data: Record) {
+                val intent = Intent(context, ReadActivity::class.java)
+                intent.putExtra("num", data.num)
+                intent.putExtra("title", data.title)
+                intent.putExtra("image", data.image)
+                intent.putExtra("author", data.author)
+                intent.putExtra("publisher", data.publisher)
+                intent.putExtra("rating", data.rating)
+                intent.putExtra("memo", data.memo)
+                intent.putExtra("date", data.date)
+                intent.putExtra("position", position)
+                resultLauncher.launch(intent)
+            }
+        })
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == Activity.RESULT_OK){
+                itemListAdapter.dataList.removeAt(it.data!!.getIntExtra("position", -1))
+                itemListAdapter.notifyDataSetChanged()
+            }
         }
 
         return mBinding?.root

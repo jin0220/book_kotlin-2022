@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 class ReadViewModel: ViewModel() {
     private val repository = DBRepository()
 
-    fun recordSelect(id: String, date: String) {
+    fun recordDelete(num: Int) {
         viewModelScope.launch {
-            repository.recordSelect(id, date)
+            repository.recordDelete(num)
         }
     }
 }

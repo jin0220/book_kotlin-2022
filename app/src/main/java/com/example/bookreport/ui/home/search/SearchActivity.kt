@@ -18,6 +18,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
 
         adapter = SearchAdapter()

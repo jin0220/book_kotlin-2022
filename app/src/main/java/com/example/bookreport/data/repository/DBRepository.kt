@@ -80,4 +80,25 @@ class DBRepository {
 
         })
     }
+
+    fun recordDelete(num: Int){
+        val call = DBRetrofitClient.api.recordDelete(num)
+
+        call.enqueue(object : Callback<MutableList<PostModel>>{
+            override fun onResponse(call: Call<MutableList<PostModel>>, response: Response<MutableList<PostModel>>) {
+                if (response.isSuccessful){
+                    Log.d("확인", "응답 성공 -> ${response.body()}")
+                }
+                else{
+                    Log.d("확인", "응답 실패")
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<PostModel>>, t: Throwable) {
+                t.printStackTrace()
+                Log.d("확인", "통신 실패")
+            }
+
+        })
+    }
 }
