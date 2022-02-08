@@ -1,8 +1,10 @@
 package com.example.bookreport.ui.home.calendar
 
 import android.graphics.*
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +22,7 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
     var num_month: String = ""
     var day: Int = 0
 
-    var oldClick = -1
+    var oldClick = -100
 
     var decorate: MutableList<Boolean> = mutableListOf()
 
@@ -61,24 +63,28 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
                 tvDate.text = baseCalendar.data[position].toString()
                 clickDate.setColorFilter(Color.parseColor("#ffffff"))
                 tvDate.setTextColor(Color.BLACK)
+                dot.visibility = View.GONE
+
+                val deco = dot.background as GradientDrawable
+                deco.setColor(Color.parseColor("#6667AB"))
 
                 tvDate.setOnClickListener {
-                    Toast.makeText(dateBox.context, "$year $month ${baseCalendar.data[position]}", Toast.LENGTH_SHORT).show()
                     clickDate.setColorFilter(Color.parseColor("#6667AB"))
                     tvDate.setTextColor(Color.WHITE)
 
+                    deco.setColor(Color.WHITE) // 클릭한 날짜의 dot의 색상을 변경
+
                     day = baseCalendar.data[position]
 
-                    if (oldClick != -1) notifyItemChanged(oldClick) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
+                    if (oldClick != -100) notifyItemChanged(oldClick)
                     oldClick = position
 
                     fragment.itemListUpdate("$year-$num_month-$day") // 선택된 날짜 프래그먼트에 전달
                 }
 
-//            binding.dot.addView(PointView(binding.dot.context))
                 if (position >= baseCalendar.prevMonthTailOffset && position < baseCalendar.prevMonthTailOffset + baseCalendar.currentMonthMaxDate
-                    && oldClick == -1 && decorate.isNotEmpty() && decorate[baseCalendar.data[position]]){
-                    dot(binding) // 오류!! dot 있는 부분 클릭 후 다른 곳을 클릭하면 그 부분에 dot이 생김
+                        && decorate.isNotEmpty() && decorate[baseCalendar.data[position]]){
+                    dot.visibility = View.VISIBLE
                 }
             }
         }
@@ -115,23 +121,5 @@ class CalendarAdapter(val fragment: HomeFragment) : RecyclerView.Adapter<Calenda
         // 달력의 월이 바뀔 때 목록 리스트 초기화
         fragment.itemListAdapter.dataList = mutableListOf()
         fragment.itemListAdapter.notifyDataSetChanged()
-    }
-
-    fun dot(binding: ItemScheduleBinding){
-        val bitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        canvas.drawColor(Color.TRANSPARENT)
-        binding.dot.setImageBitmap(bitmap)
-
-        val paint = Paint()
-        paint.setColor(Color.parseColor("#6667AB"))
-        paint.setStrokeWidth(5f)
-
-        // 도화지에 좌표로 표시하기
-        val rect = RectF()
-        rect.set(22f,14f,28f,20f)
-
-        // 원 그리기
-        canvas.drawArc(rect, 0f, 360f, true, paint)
     }
 }
