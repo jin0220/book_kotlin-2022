@@ -19,7 +19,7 @@ interface DBService {
         @Field("image") image: String,
         @Field("author") author: String,
         @Field("publisher") publisher: String,
-        @Field("rating") rating: Double,
+        @Field("rating") rating: Float,
         @Field("memo") memo: String,
     ): Call<Record>
 
@@ -41,5 +41,18 @@ interface DBService {
     @POST("memoDelete.php")
     fun recordDelete(
         @Field("num") num: Int,
+    ): Call<MutableList<PostModel>>
+
+    @FormUrlEncoded
+    @POST("memoUpdate.php")
+    fun recordUpdate(
+            @Field("num") num: Int,
+            @Field("title") title: String,
+            @Field("image") image: String,
+            @Field("author") author: String,
+            @Field("publisher") publisher: String,
+            @Field("rating") rating: Float,
+            @Field("memo") memo: String,
+            @Field("date") date: String
     ): Call<MutableList<PostModel>>
 }

@@ -68,17 +68,19 @@ class WriteActivity : AppCompatActivity() {
             }
         }
 
-//        writeViewModel.recordResponse.observe(this,{
-//            it.enqueue(object : retrofit2.Callback<Record> {
-//                override fun onResponse(call: Call<Record>, response: Response<Record>) {
-//                    Log.d("확인", "$response")
-//                }
-//
-//                override fun onFailure(call: Call<Record>, t: Throwable) {
-//                    Log.d("확인", "fail $call")
-//                }
-//            })
-//        })
+        if(intent.getIntExtra("num", 0) > 0){
+            imagePhoto = intent.getStringExtra("image")!!
+            binding.itemBox.visibility = View.VISIBLE
+
+            binding.title.text = intent.getStringExtra("title")
+            binding.author.text = intent.getStringExtra("author")
+            binding.publisher.text = intent.getStringExtra("publisher")
+            Picasso.get().load(intent.getStringExtra("image")).into(binding.image)
+
+            binding.rating.rating = intent.getFloatExtra("rating", 0.0f)
+            binding.dateSet.text = intent.getStringExtra("date")
+            binding.memo.setText(intent.getStringExtra("memo"))
+        }
     }
 
 
@@ -108,11 +110,28 @@ class WriteActivity : AppCompatActivity() {
             val title = title.text.toString()
             val author = author.text.toString()
             val publisher = publisher.text.toString()
-            val rating = rating.rating.toDouble()
+            val rating = rating.rating
             val memo = memo.text.toString()
 
-            writeViewModel.recordInsert(id, title, imagePhoto, author,
-                    publisher, rating, memo)
+            if(intent.getIntExtra("num", 0) > 0) {
+                writeViewModel.recordUpdate(intent.getIntExtra("num", 0), title,
+                        imagePhoto, author, publisher, rating, memo, dateSet.text.toString())
+
+                val resultIntent = Intent(this@WriteActivity, ReadActivity::class.java)
+                resultIntent.putExtra("num", intent.getIntExtra("num", 0))
+                resultIntent.putExtra("title", title)
+                resultIntent.putExtra("image", imagePhoto)
+                resultIntent.putExtra("author", author)
+                resultIntent.putExtra("publisher", publisher)
+                resultIntent.putExtra("rating", rating)
+                resultIntent.putExtra("memo", memo)
+                resultIntent.putExtra("date", dateSet.text.toString())
+                setResult(RESULT_OK, resultIntent)
+            }
+            else {
+                writeViewModel.recordInsert(id, title, imagePhoto, author,
+                        publisher, rating, memo)
+            }
 
             finish()
         }

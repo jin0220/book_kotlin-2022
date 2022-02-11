@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class DBRepository {
     fun recordInsert(id: String, title: String, imagePhoto: String, author: String,
-                     publisher: String, rating: Double, memo: String) {
+                     publisher: String, rating: Float, memo: String) {
         val call = DBRetrofitClient.api.recordInsert(id, title, imagePhoto, author,
                 publisher, rating, memo)
 
@@ -42,17 +42,17 @@ class DBRepository {
         call.enqueue(object : Callback<MutableList<Record>>{
             override fun onResponse(call: Call<MutableList<Record>>, response: Response<MutableList<Record>>) {
                 if (response.isSuccessful){
-                    Log.d("확인", "응답 성공 -> ${response.body()}")
+                    Log.d("확인", "recordSelect 응답 성공 -> ${response.body()}")
                     dataList.value = response.body()!!
                 }
                 else{
-                    Log.d("확인", "응답 실패")
+                    Log.d("확인", "recordSelect 응답 실패")
                 }
             }
 
             override fun onFailure(call: Call<MutableList<Record>>, t: Throwable) {
                 t.printStackTrace()
-                Log.d("확인", "통신 실패")
+                Log.d("확인", "recordSelect 통신 실패")
             }
 
         })
@@ -65,17 +65,17 @@ class DBRepository {
         call.enqueue(object : Callback<MutableList<Calendar>>{
             override fun onResponse(call: Call<MutableList<Calendar>>, response: Response<MutableList<Calendar>>) {
                 if (response.isSuccessful){
-                    Log.d("확인", "응답 성공 -> ${response.body()}")
+                    Log.d("확인", "calendarSelect 응답 성공 -> ${response.body()}")
                     calendarList.value = response.body()!!
                 }
                 else{
-                    Log.d("확인", "응답 실패")
+                    Log.d("확인", "calendarSelect 응답 실패")
                 }
             }
 
             override fun onFailure(call: Call<MutableList<Calendar>>, t: Throwable) {
                 t.printStackTrace()
-                Log.d("확인", "통신 실패")
+                Log.d("확인", "calendarSelect 통신 실패")
             }
 
         })
@@ -83,6 +83,28 @@ class DBRepository {
 
     fun recordDelete(num: Int){
         val call = DBRetrofitClient.api.recordDelete(num)
+
+        call.enqueue(object : Callback<MutableList<PostModel>>{
+            override fun onResponse(call: Call<MutableList<PostModel>>, response: Response<MutableList<PostModel>>) {
+                if (response.isSuccessful){
+                    Log.d("확인", "recordDelete 응답 성공 -> ${response.body()}")
+                }
+                else{
+                    Log.d("확인", "recordDelete 응답 실패")
+                }
+            }
+
+            override fun onFailure(call: Call<MutableList<PostModel>>, t: Throwable) {
+                t.printStackTrace()
+                Log.d("확인", "recordDelete 통신 실패")
+            }
+
+        })
+    }
+
+    fun recordUpdate(num: Int, title: String, imagePhoto: String, author: String,
+                     publisher: String, rating: Float, memo: String, date: String ){
+        val call = DBRetrofitClient.api.recordUpdate(num, title, imagePhoto, author, publisher, rating, memo, date)
 
         call.enqueue(object : Callback<MutableList<PostModel>>{
             override fun onResponse(call: Call<MutableList<PostModel>>, response: Response<MutableList<PostModel>>) {

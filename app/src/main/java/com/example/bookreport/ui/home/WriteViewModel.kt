@@ -16,10 +16,16 @@ class WriteViewModel: ViewModel() {
     val recordResponse: MutableLiveData<Call<Record>> = MutableLiveData()
 
     fun recordInsert(id: String, title: String, imagePhoto: String, author: String,
-                     publisher: String, rating: Double, memo: String) {
+                     publisher: String, rating: Float, memo: String) {
         viewModelScope.launch {
-            repository.recordInsert(id, title, imagePhoto, author,
-                    publisher, rating, memo)
+            repository.recordInsert(id, title, imagePhoto, author, publisher, rating, memo)
+        }
+    }
+
+    fun recordUpdate(num: Int, title: String, imagePhoto: String, author: String,
+                       publisher: String, rating: Float, memo: String, date: String){
+        viewModelScope.launch {
+            repository.recordUpdate(num, title, imagePhoto, author, publisher, rating, memo, date)
         }
     }
 }

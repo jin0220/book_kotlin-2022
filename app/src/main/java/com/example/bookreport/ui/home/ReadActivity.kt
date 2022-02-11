@@ -1,11 +1,14 @@
 package com.example.bookreport.ui.home
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.example.bookreport.R
 import com.example.bookreport.databinding.ActivityReadBinding
@@ -37,6 +40,21 @@ class ReadActivity : AppCompatActivity() {
         }
     }
 
+    val resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == Activity.RESULT_OK){
+            with(binding) {
+                title.text = it.data?.getStringExtra("title")
+                author.text = it.data?.getStringExtra("author")
+                publisher.text = it.data?.getStringExtra("publisher")
+                ratingBar.rating = it.data?.getFloatExtra("rating", 0.0f)!!
+                date.text = it.data?.getStringExtra("date")
+                memo.text = it.data?.getStringExtra("memo")
+
+                Picasso.get().load(it.data?.getStringExtra("image")).into(image)
+            }
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.read_menu, menu)
@@ -51,6 +69,16 @@ class ReadActivity : AppCompatActivity() {
                 return true
             }
             R.id.update -> {
+                val intent2 = Intent(this, WriteActivity::class.java)
+                intent2.putExtra("num", intent.getIntExtra("num", 0))
+                intent2.putExtra("title", intent.getStringExtra("title"))
+                intent2.putExtra("image", intent.getStringExtra("image"))
+                intent2.putExtra("author", intent.getStringExtra("author"))
+                intent2.putExtra("publisher", intent.getStringExtra("publisher"))
+                intent2.putExtra("rating", intent.getFloatExtra("rating", 0.0f))
+                intent2.putExtra("memo", intent.getStringExtra("memo"))
+                intent2.putExtra("date", intent.getStringExtra("date"))
+                resultLauncher.launch(intent2)
                 return true
             }
             R.id.delect -> {
