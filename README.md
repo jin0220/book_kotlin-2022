@@ -7,6 +7,7 @@
 - 개발 언어: Kotlin
 - 데이터베이스: MySQL
 - API: 네이버 책 API
+- 디자인 패턴: MVVM
 - 라이브러리: retrofit2, okhttp3, picasso
 
 ## 애플리케이션 구조
