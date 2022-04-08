@@ -9,6 +9,7 @@
 - API: 네이버 책 API
 - 디자인 패턴: MVVM
 - 라이브러리: retrofit2, okhttp3, picasso
+- 개발 기간: 약 1개월
 
 ## 애플리케이션 구조
 - 홈
